@@ -88,12 +88,12 @@ function func1 (string memory _name, uint _number) public {
 Если функция что-то возвращает, то мы должны это явно указать, например:  
 ```
 // Функция вернет результат сложения целочисленных переменных.
-function _sum(uint a, uint b) private returns(uint) {
+function _sum(uint a, uint b) private returns (uint) {
   return a + b;
 ```
 ```
 // Функция вернет строчный тип данных.
-function greetings() public returns(string memory) {
+function greetings() public returns (string memory) {
   string greet = "Greeting from public function!";
   return greet;
 ```
@@ -101,18 +101,85 @@ function greetings() public returns(string memory) {
 **МОДИФИКАТОРЫ ФУНКЦИЙ**:  
 - view: если функция не меняет ничего и не добавляет, то её добавляется модификатор **view**.
 - pure: функция работает только с передаваемыми в неё аргументами.
+- internal: функция доступна только внутри контракта и наследуемых контрактов.
+- external: функция доступна только для внешних вызовов.  
 
 Пример **view** функции:  
 ```
-function greeting() public view returns(string memory){
+function greeting() public view returns (string memory){
 }
 ```
 
 Пример **pure** функции:  
 ```
-function add(uint a, uint b) public pure returns(uint) {
+function add(uint a, uint b) public pure returns (uint) {
   return a + b;
 }
 ```
+Пример **internal** функции:
+```
+contract OtherContract {
+  function internalFuncName(uint a) internal returns (uint) {
+    return a++;
+  }
+}
+```
+
+Пример **external** функции: 
+
+```
+contract ContractName is OtherContract { // Наследование от OtherContract.
+  fucntion externalFuncName() external returns (uint) { // Внешняя функция.
+    return internalFuncName(1); // Вызываем функцию internalFuncName из контракта OtherContract.
+  }
+}
+```  
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#### ПРЕОБРАЗОВАНИЕ ТИПОВ:  
+
+Преобразование целочисленных:  
+```
+uint8 a = 5;
+uint b = 6;
+
+uint8 c = a * b; // Вызовет ошибку, потому что a * b вернет uint, не uint8.
+
+uint8 c = a * uint8(b); // Мы примели b к типу uint8;
+
+uint(keccak256(abi.encodePacked("aaaab"))); // Преобразование значения HEX в целочисленное.
+```
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#### KECCAC256:  
+
+В Etherreum есть встроенная хеш функция keccak256, которая является версией SHA3. Хеш функция преобразует входящие данные в рандомное значение в HEX размером 256 бит. Важно отметить, что keccak256 принимает на вход один параметр типа bytes.Это означает, что мы должны "упаковать" параметр до передачи его на вход keccak256.
+
+Пример:
+```
+//6e91ec6b618bb462a4a6ee5aa2cb0e9cf30f7a052bb467b0ba58b8748c00d2e5
+keccak256(abi.encodePacked("aaaab"));
+//b1f078126895a1424524de5321b339ab00408010b7cf0e6ed451514981e58aa9
+keccak256(abi.encodePacked("aaaac"));
+```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#### EVENTS (СОБЫТИЯ):  
+События это способ коммуникации контракта с front-end приложение о произощедшем в blockchain. Front-end приложение прослушивает соответствующие события и выполняет действия когда они произошли.  
+
+```
+event Multiplication(uint a, uint b, uint number); // Создали событие.
+
+function mul(uint _a, uint _b) public returns (uint) {
+  uint number = _a * _b;
+  emit Multiplication(_a, _b, number ); // Вызываем event;
+  return number;
+}
+```
+
+Код на front-end приложении:  
+```
+contractName.Multiplication(function(error, result) {
+  // Обрабатываем ответ.
+})
+```
