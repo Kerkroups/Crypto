@@ -13,6 +13,9 @@
 - Remix.
 - Ganache.  
 
+#### ДЛЯ НАЧАЛА:  
+- **Contracts can be created “from outside” via Ethereum transactions or from within Solidity contracts.**
+- https://docs.soliditylang.org/en/v0.8.9/contracts.html#creating-contracts  
 
 #### TRUFFLE + GANACHE:  
 1. Install Truffle: https://archive.trufflesuite.com/docs/truffle/how-to/install/, ```npm install truffle -g```  
