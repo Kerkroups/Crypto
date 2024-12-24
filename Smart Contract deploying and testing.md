@@ -46,5 +46,22 @@ truffle.js // конфигурационные файлы содержащие �
 ```
 
 #### HARDHAT:  
-https://hardhat.org/tutorial
+https://hardhat.org/tutorial  
+
+
+#### REMIX IDE + METAMASK BROWSER EXTENSION:  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
