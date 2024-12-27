@@ -256,6 +256,7 @@ mapping (uint => string) idToUser;
 - msg.value - способ увидеть, сколько ETH было отправлено на адрес контракта.
 - ether - встроенный блок.
 - assert - проверяет условие и выбрасывает ошибку если false. Разница между assert и require - require вернет остаток газа если функция не сработает, assert - не вернет остаток газа. assert используется в случаях если в коде что-то пошло не так (например, переполнение uint).
+- tx.origin - адресс изначального инициатора транзации.  
  
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #### KEYWORDS:  
@@ -310,7 +311,15 @@ contract Dog is Animal{
 ```
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### IMPORTS:
+### IMPORTS:  
+
+В Ethereum можно импортировать другие контракты.
+
+**import** позволялет подключить в наш контракт другие контракты и библиотеки.
+
+Можно импортировать контракты из других файлов, библиотек, внешних репозиториев (через URL или npm пакеты).  
+
+Важно следить за версиями Solidity в других контрактах, так как если версии Solidity отличаются, код может не скомпилироваться.  
 
 ```
 import "./SolidityContract.sol"
@@ -356,7 +365,83 @@ contract GetNumber {
 - OpenZeppelin: SafeMath.
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#### ВЛОЖЕННЫЕ КОНТРАКТЫ:  
 
+Создание контрактов внутри контрактов в блокчейне, или "вложенные контракты", может быть полезным для различных целей, включая:  
+
+- Модульность и переиспользуемость.
+- Повышение безопасности.
+- Гибкость и расширяемость.
+- Управление состоянием.
+- Сложные схемы взаимодействия.
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MainContract {
+    // Вложенный контракт для управления правами доступа
+    contract AccessControl {
+        address public owner;
+        
+        constructor() {
+            owner = msg.sender;
+        }
+
+        modifier onlyOwner() {
+            require(msg.sender == owner, "Not the owner");
+            _;
+        }
+    }
+    
+    // Вложенный контракт для управления токенами
+    contract TokenManager {
+        mapping(address => uint256) public balances;
+
+        function deposit() public payable {
+            balances[msg.sender] += msg.value;
+        }
+
+        function withdraw(uint256 amount) public {
+            require(balances[msg.sender] >= amount, "Insufficient balance");
+            balances[msg.sender] -= amount;
+            payable(msg.sender).transfer(amount);
+        }
+    }
+    
+    // Используем вложенные контракты
+    AccessControl private accessControl;
+    TokenManager private tokenManager;
+
+    constructor() {
+        accessControl = new AccessControl();
+        tokenManager = new TokenManager();
+    }
+
+    // Функция для депозита в токенах
+    function depositTokens() public payable {
+        tokenManager.deposit{value: msg.value}();
+    }
+
+    // Функция для вывода токенов
+    function withdrawTokens(uint256 amount) public {
+        tokenManager.withdraw(amount);
+    }
+
+    // Функция для обновления владельца (только для владельца)
+    function changeOwner(address newOwner) public {
+        accessControl.onlyOwner();
+        accessControl.owner = newOwner;
+    }
+
+    // Получить баланс пользователя
+    function getBalance() public view returns (uint256) {
+        return tokenManager.balances(msg.sender);
+    }
+}
+
+```  
 
 
 
