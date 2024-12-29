@@ -69,7 +69,9 @@ Create report in pdf: ```cd docs && make latexpdf```
 Rules: https://github.com/protofire/solhint/blob/develop/docs/rules.md
 
 
+#### SOLC (SOLIDITY COMPILER):  
 
+https://github.com/ethereum/solidity/releases  
 
 
 
