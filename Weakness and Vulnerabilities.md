@@ -27,3 +27,9 @@ contract A {
 ```
 
 Когда пользователь вызывает контракт через другой контракт, tx.origin будет равен адресу пользователя, а msg.sender будет адресом контракта, который вызвал вашу функцию.
+
+
+#### VULNERABILITI IN ABI.ECNCODEPACKED():  
+
+This function vulnerable to collision: https://docs.soliditylang.org/en/latest/abi-spec.html#non-standard-packed-mode  
+
