@@ -55,6 +55,20 @@ https://hardhat.org/tutorial
 #### REMIX IDE + METAMASK BROWSER EXTENSION:  
 
 
+#### MYTHRIL (SAST):  
+
+1. Analyze file: ```myth analyze <solidity-file>```
+2. Analyze contract by address: ```myth analyze -a <contract-address>```
+
+Create report in html: ```cd docs && make html```  
+
+Create report in pdf: ```cd docs && make latexpdf```  
+
+#### SOLHINT:   
+
+Rules: https://github.com/protofire/solhint/blob/develop/docs/rules.md
+
+
 
 
 
