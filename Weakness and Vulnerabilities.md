@@ -58,5 +58,7 @@ IPFS: https://gateway.pinata.cloud/ipfs/QmVQjAYYszSmEmYKWHusx8TwzF5vTYjCv8PUEJLX
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #### INTEGER UNDERFLOW AND OVERFLOW:  
 
+https://metaschool.so/articles/integer-overflow-and-underflow-in-solidity  
+
 
 
