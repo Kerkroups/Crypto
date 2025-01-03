@@ -98,6 +98,60 @@ testStructure storage test = tests[0];  // ССылка на массив стр
 
 Обращение к элементу массива: ```arr[i];``` где arr это имя массива, i индекс элемента массива.  
 
+Работа с массивами структур:  
+```
+struct Todo { // Создаем структуру;
+        string text;
+        bool completed;
+    }
+    
+    Todo[] public todos; // Создаем массив структур;
+    
+    function create(string calldata text) external { // Функция добавляет значение text в массиы структур.
+        todos.push(Todo({text: text, completed: false}));
+    }
+    
+    function updateText(uint256 index, string calldata text) external {
+        Todo storage todo = todos[index];
+        todo.text = text;
+    }
+    
+   function toggleCompleted(uint256 index) external {
+        Todo storage todo = todos[index];
+        todo.completed = !todo.completed;
+    }
+
+    function get(uint256 index) external returns (string memory, bool) {
+        Todo storage todo = todos[index];
+        return (todo.text, todo.completed);
+    }
+    
+}
+```
+
+Сдвиг данных в массиве:  
+```
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.26;
+
+contract ArrayShift {
+    uint256[] public arr = [1, 2, 3, 4, 5];
+
+    function remove(uint256 index) external {
+        require(index < arr.length, "Index out of bounds"); // Проверка индекса на валидность
+
+        // Сдвигаем элементы на одну позицию влево, начиная с индекса
+        for (uint256 i = index; i < arr.length - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+
+        // Убираем последний элемент массива
+        arr.pop();
+    }
+}
+```
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #### ENUM:  
 
