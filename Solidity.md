@@ -321,6 +321,14 @@ function(uint a, uint b) public {
     // Block code;
   }
 ```
+
+Использование тернартного оператора для проверки условия:  
+```
+function exercise_1(uint256 x) external pure returns (uint256) {
+        return x > 0 ? 1 : 0;
+    }
+```
+
 - for: цыкл "for".
 ```
 uint[] numbers;
