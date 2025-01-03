@@ -233,6 +233,19 @@ function greetings() public returns (string memory) {
 - external: функция доступна только для внешних вызовов.  
 - custom modifiers.
 - payable: тип функции который может получать ETH.
+```
+contract Payable {
+    // Payable address can receive Ether
+    address payable public owner;
+
+    // Payable constructor can receive Ether
+    constructor() payable {
+        owner = payable(msg.sender);
+    }
+
+    function deposit() external payable {}
+}
+```  
 
 Пример **view** функции:  
 ```
