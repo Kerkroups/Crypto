@@ -304,7 +304,7 @@ function test(address _myAddress) public view returns (string) {
   return flag;
 }
 ```
-- if: условие "если".
+- if, else if, else: условие "если".
 ```
 uint a = 1;
 uint b = 2;
@@ -314,7 +314,12 @@ function(uint a, uint b) public {
   if (a == b) {
     // Function code;
   }
-}
+  else if (a != b) {
+    // Block code;
+  }
+  else {
+    // Block code;
+  }
 ```
 - for: цыкл "for".
 ```
