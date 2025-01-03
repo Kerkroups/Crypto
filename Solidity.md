@@ -67,7 +67,16 @@ struct testStructure {
   string b;
 }
 ```
-Структуры должны храниться в **memory**.
+Структуры должны храниться в **memory**.  
+
+```
+testStructure memory test1 = testStructure(1, "Hello World");
+testStructure memory test2 = testStructure({a: 1, b: "String value"});
+testStructure memory test3;
+
+testStructure[] memory tests; // Массив структур.
+tests.push(testStructure(1, "string"));
+```
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #### МАССИВЫ:  
