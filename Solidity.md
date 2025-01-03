@@ -29,6 +29,7 @@ contract ContractName {
 **local** переменные определяются внутри функции и существуют только во время выполнения кода функции.  
 **global** переменные предоставляют информацию о блокчейн.  
 **constant** значение этих переменных устанавливается перед компиляцией кода и не может быть моджифицированно после. Расходуют меньше gas. Должны определяться в верхнем регистре.  ```uint256 public constant UINT_CONSTANT = 123;```  
+**immutable** значение этих переменных пожоже на использование констант но отличается тем, что их можно использовать в конструкторе.  
 
  - uint256: беззнаковое целочисленное, число не может быть отрицательным.
  - int: знаковое целочисленное, число может быть положительным и отрицательным.
@@ -475,6 +476,104 @@ contract Dog is Animal{
 
 }
 ```
+
+Перегрузка функций:  
+
+Функции, которые могут быть перегруженны потомком должны быть помеченны **virtual**.  
+Функции, которые перегружают родительские функции должны быть помеченны **override**.  
+
+```
+contract A {
+    // foo() can be overridden by child contract
+    function foo() public pure virtual returns (string memory) {
+        return "A";
+    }
+}
+
+// Inherit other contracts by using the keyword 'is'.
+contract B is A {
+    // Перегружаем функцию foo() контракта A.
+    function foo() public pure override returns (string memory) {
+        return "Inheritance";
+    }
+}
+```
+
+В Solidity можно наследовать множество контрактов:  
+
+```
+contract X {
+    function foo() public pure virtual returns (string memory) {
+        return "X";
+    }
+}
+
+contract Y is X {
+    // Перегружаем функцию foo() контракта X.
+    // Перегружаемую ф-цию также помечаем как virtual, для того, чтобы она также могла быть перегруженна потомом.
+    function foo() public pure virtual override returns (string memory) {
+        return "Y";
+    }
+}
+
+// Полследовательность наследования - most base-like to derived
+contract Z is X, Y {
+    // Перегружаем ф-цию foo() из контрактов X и Y.
+    function foo() public pure override(X, Y) returns (string memory) {
+        return "Z";
+    }
+}
+```  
+
+Вызов родительского конструктора:
+
+```
+contract A {
+    string public name;
+
+    constructor(string memory _name) {
+        name = _name;
+    }
+}
+
+contract B {
+    string public text;
+
+    constructor(string memory _text) {
+        text = _text;
+    }
+}
+
+// 2 варианта вызвать родительский конструктор.
+contract C is A("A"), B("B") {}
+
+contract D is A, B {
+    // Pass the parameters here in the constructor,
+    constructor(string memory _name, string memory _text) A(_name) B(_text) {}
+}
+```
+
+Вызов родительских функций:  
+
+Вызвать функцию родительского контракта можно напрямую или использовать слово **super**.  
+
+```
+contract E {
+    function bar() public virtual {
+        emit Log("E.bar");
+    }
+}
+
+contract F is E {
+  function bar() public override(F) {
+        super.bar();
+    }
+
+  E.bar();
+}
+
+```
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### IMPORTS:  
