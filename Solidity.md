@@ -359,6 +359,10 @@ keccak256(abi.encodePacked("aaaac"));
 Чаще всего Events используются для дебага, мониторинга и как дешевое хранилище для хранения переменных состояния.  
 
 ```
+event Message(address indexed from, address indexed to, string message);
+```
+
+```
 event Multiplication(uint a, uint b, uint number); // Создали событие.
 
 function mul(uint _a, uint _b) public returns (uint) {
