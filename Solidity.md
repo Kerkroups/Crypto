@@ -104,9 +104,11 @@ function greetings() public returns (string memory) {
   return greet;
 ```
 
-**МОДИФИКАТОРЫ ФУНКЦИЙ**:  
+**МОДИФИКАТОРЫ**:  
 - view: если функция не меняет ничего и не добавляет, то её добавляется модификатор **view**.
 - pure: функция работает только с передаваемыми в неё аргументами.
+- public:
+- private:  
 - internal: функция доступна только внутри контракта и наследуемых контрактов.
 - external: функция доступна только для внешних вызовов.  
 - custom modifiers.
@@ -164,6 +166,14 @@ function c(uint a, uint b) public myModifier(4,2) returns (uint) {
   retturn a * b;
 }
 ```
+
+```
+public bool = true;
+public int256 = -123;
+public uint256 = 123;
+public address addr = 0x...;
+public byte32 byteAddr = 0x...;
+```  
 
 **Модификаторы видимости**: private, internal, external, public.
 **Модификаторы состояния**: view, pure.
