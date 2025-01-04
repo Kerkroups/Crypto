@@ -438,7 +438,14 @@ function sendViaCall(address payable _to) public payable {
     (bool sent, bytes memory data) = _to.call{value: msg.value}("");
     require(sent, "Failed to send Ether");
    }
-  }
+
+function sendViaCall(address payable addr) public {
+  // 
+    (bool sent, bytes memory data) = addr.call(abi.encodeWithSignature("bar(uint256,bool)", 1, true));
+    require(sent, "Failed to send Ether");
+   }
+
+}
 ```
 ```
 contract ReceiveEther {
@@ -451,7 +458,11 @@ contract ReceiveEther {
   function getBalance() public view returns (uint) {
   return address(this).balance;
    }
-  }
+
+  fucntion bar(uint256 a, bool b) external returns(uint256, bool) {
+    return (a,b);
+  }
+}
 ```  
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
