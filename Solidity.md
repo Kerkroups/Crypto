@@ -470,7 +470,29 @@ contract ReceiveEther {
 
 Используются переменные **msg.sender**, **msg.value**. Также используется **storage** вызвавшего контракта. Расположение **storage**  должно быть таким же, как в вызванном контракте.   
 
+```
+contract TestDelegateCall {
+    // Storage layout must be the same as contract A
+    uint256 public num;
+    address public sender;
+    uint256 public value;
 
+    function setNum(uint256 _num) external {
+        num = _num;
+    }
+}
+
+contract DelegateCall {
+    uint256 public num;
+    address public sender;
+    uint256 public value;
+
+    function setNum(address test, uint256 _num) external {
+        (bool success, bytes memory data) = test.delegatecall(abi.encodeWithSignature("setNum(uint256)", _num));
+    }
+}
+
+```
 
 
 
