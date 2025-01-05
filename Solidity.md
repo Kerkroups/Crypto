@@ -900,7 +900,7 @@ contract Bank {
     
     function withdraw() external {
         require(msg.sender == owner, "Only owner!");
-        emit Withdraw(owner(this).balance);
+        emit Withdraw(address(this).balance);
         selfdestruct(payable(msg.sender));
         
     }
