@@ -881,5 +881,28 @@ function sendViaTransfer(address payable to) external payable {
 
 
 
+#### PATTERNS:  
 
+```
+contract Bank {
+    event Deposit(uint256 amount);
+    event Withdraw(uint256 amount);
 
+    address public owner;
+    
+    constructor(){
+        owner = msg.sender;
+    }
+    
+    receive() external payable {emit Deposit(msg.value);}
+    
+    fallback() external payable {emit Deposit(msg.value);}
+    
+    function withdraw() external {
+        require(msg.sender == owner, "Only owner!");
+        emit Withdraw(owner(this).balance);
+        selfdestruct(payable(msg.sender));
+        
+    }
+}
+```  
