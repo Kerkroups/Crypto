@@ -414,6 +414,10 @@ contractName.Multiplication(function(error, result) {
 mapping (address => uint) public addressToId;
 
 mapping (uint => string) idToUser;
+
+mapping(bytes32 => mapping(address => bool)) public roles;
+
+roles[role][address] = true;
 ```
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
