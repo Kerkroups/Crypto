@@ -367,6 +367,16 @@ keccak256(abi.encodePacked("aaaac"));
 keccak256(abi.encodePacked(addr, num));
 ```
 
+#### VERIFYING SIGNATURE:  
+
+Шаги для создания и проверки подписи:  
+
+1. Hash the message to sign (call smart contract).
+2. Sign the message hash (off chain).
+3. Verify signature (call smart contract).  
+
+
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
