@@ -916,6 +916,8 @@ contract Bank {
 ```<<``` - SHIFT LEFT.  
 ```>>``` - SHIFT RIGHT.
 
+Additional information about BITWISE OPERATIONS: https://medium.com/@solidity101/100daysofsolidity-understanding-bitwise-operators-in-solidity-1225e6071ca7  
+
 
 
 
