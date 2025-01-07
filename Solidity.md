@@ -880,6 +880,14 @@ function sendViaTransfer(address payable to) external payable {
         require(sent, "Failed to send Ether");
     }
 ```
+```
+fallback(bytes calldata data) external payable returns (bytes memory) {
+        (bool success, bytes memory response) = target.call{value: msg.value}(data);
+        require(success, "Unsuccess");
+        return response;
+        
+    }
+```  
 
 
 
