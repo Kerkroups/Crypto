@@ -921,6 +921,22 @@ contract Bank {
 Additional information about BITWISE OPERATIONS: https://medium.com/@solidity101/100daysofsolidity-understanding-bitwise-operators-in-solidity-1225e6071ca7  
 
 
+#### MULTICALL:  
+
+MultiCall - это удобный контракт, который запрашивает несколько контрактов за один вызов функции и возвращает все результаты.  
+
+В multicall могут быть вызванны такие ф-ции: call(), delegatecall(), staticcall().  
+
+Обращение к другому контракту с помощью staticcall():  
+
+```
+(bool success, bytes memory response) = contractToCall.staticcall(data)
+```
+
+#### MULTI DELEGATECALL:  
+
+Контракт, который позволяет выполнить множество функций за одну транзакцию.  
+
 
 
 
