@@ -947,7 +947,17 @@ MultiCall - это удобный контракт, который запраш�
 
 #### ОБРАБОТКА ОШИБОК:  
 
-```error Error();```
+```
+error Error();
+error MyError(address caller, uint256 i);
+error InvalidAddress();
+error NotAuthorized(address caller);
+
+if (...) {
+  revert Error();
+}
+```
+
 
 
 
