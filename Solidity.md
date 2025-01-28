@@ -39,6 +39,50 @@ intArray = [10, 11, 12];
 
 Доступ к значениям в массиве происходит по формуле: keccak256(слот где объявили переменную) + количество элементов * индекс элемента.  
 
+Yul types everything is bytes32.
+
+sstore(k, v) - store v to slot k.
+sload(k) - load 32 bytes from slot k.
+
+```
+uint256 s;
+
+assembly {
+  let x := 1
+  x := 2
+  s := 3
+}
+
+function test() public view returns(bool x, uint256 y, bytes32 x) {
+  assembly {
+    x := 1
+    y := 0xabc
+    x := "Hello"
+  }
+}
+```
+
+```
+uint256 public a_0;
+uint256 public b_1;
+uint256 public c_2;
+
+function setVars() public {
+  assembly {
+    sstore(0, 111) // Another way to store variables in slot is sstore(a_0.slot, 111)
+    sstore(1, 222)
+    sstore(2, 333)
+  }
+}
+
+function loadVars() public view returns (uint256 a, uint256 b, uint256 c) {
+  assembly {
+    sload(0) // Another way to access variable in slot is sload(a_0.slot)
+    sload(1)
+    sload(2)
+  }
+}
+```  
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #### ПЕРЕМЕННЫЕ И ТИПЫ ДАННЫХ:  
